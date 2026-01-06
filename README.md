@@ -27,15 +27,51 @@ ws.send(JSON.stringify({event: "sharp_click"}));
 ```
 
 
-## 🎮 Available Events
+## 🎮 Available Events (21 Total)
 
-| Event Name | Byte Code | Description | Use Case | Queue Strategy |
-|------------|-----------|-------------|----------|----------------|
-| `soft_bump` | `0x01` | สั่นเบาๆ | UI hover, menu navigation | Throttle (100ms) |
-| `sharp_click` | `0x02` | คลิกกริ๊บ | Button press, success | Cancel-Previous |
-| `double_click` | `0x03` | สั่น 2 ครั้ง | Alert, notification | Cancel-Previous |
-| `long_pulse` | `0x04` | สั่นยาว | Warning, error | Cancel-Previous |
-| `stop` | `0x00` | หยุดทันที | Emergency stop | Immediate |
+### UI Interactions
+| Event | Byte | Use Case | Strategy |
+|-------|------|----------|----------|
+| `hover` | 0x01 | Menu/UI hover | Throttle (100ms) |
+| `click` | 0x02 | Button press | CancelPrevious |
+| `double_click` | 0x03 | Special action | CancelPrevious |
+| `drag_start` | 0x04 | Begin drag | CancelPrevious |
+| `drag_end` | 0x05 | Drop item | CancelPrevious |
+| `scroll_tick` | 0x06 | Scroll feedback | Throttle (50ms) |
+| `select` | 0x07 | Selection | CancelPrevious |
+
+### Notifications
+| Event | Byte | Use Case | Strategy |
+|-------|------|----------|----------|
+| `success` | 0x08 | Success feedback | CancelPrevious |
+| `error` | 0x09 | Error alert | CancelPrevious |
+| `warning` | 0x0A | Warning | CancelPrevious |
+| `info` | 0x0B | Information | CancelPrevious |
+| `completed` | 0x0C | Task done | CancelPrevious |
+
+### Gaming & Interactive
+| Event | Byte | Use Case | Strategy |
+|-------|------|----------|----------|
+| `hit_light` | 0x0D | Light impact | Throttle (80ms) |
+| `hit_heavy` | 0x0E | Heavy impact | CancelPrevious |
+| `damage` | 0x0F | Take damage | CancelPrevious |
+| `pickup` | 0x10 | Collect item | Throttle (100ms) |
+| `level_up` | 0x11 | Achievement | CancelPrevious |
+
+### Creative & Special
+| Event | Byte | Use Case | Strategy |
+|-------|------|----------|----------|
+| `pulse` | 0x12 | Pulsing effect | CancelPrevious |
+| `wave` | 0x13 | Wave pattern | CancelPrevious |
+| `firework` | 0x14 | Celebration | CancelPrevious |
+| `heartbeat` | 0x15 | Rhythm (~75 BPM) | Throttle (800ms) |
+
+### System
+| Event | Byte | Use Case | Strategy |
+|-------|------|----------|----------|
+| `stop` | 0x00 | Emergency stop | Immediate |
+
+> 📖 **Full Documentation**: See [EVENTS.md](EVENTS.md) for detailed waveform mappings and examples
 
 ## 🚀 Quick Start Examples
 

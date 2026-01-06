@@ -33,14 +33,39 @@ namespace Loupedeck.VibeItPlugin
             {
                 PluginLog.Info("Loading VibeIt Universal Haptic Bridge...");
 
-                // Register haptic events
-                this.PluginEvents.AddEvent("soft_bump", "Soft Bump", "Light vibration for hover interactions");
-                this.PluginEvents.AddEvent("sharp_click", "Sharp Click", "Crisp click feedback for button presses");
-                this.PluginEvents.AddEvent("double_click", "Double Click", "Double-tap vibration pattern for alerts");
-                this.PluginEvents.AddEvent("long_pulse", "Long Pulse", "Long vibration for warnings and errors");
+                // Register haptic events - UI Interactions
+                this.PluginEvents.AddEvent("hover", "Hover", "Light feedback for hovering over UI elements");
+                this.PluginEvents.AddEvent("click", "Click", "Crisp click feedback for button presses");
+                this.PluginEvents.AddEvent("double_click", "Double Click", "Double-tap pattern for special actions");
+                this.PluginEvents.AddEvent("drag_start", "Drag Start", "Feedback when starting to drag");
+                this.PluginEvents.AddEvent("drag_end", "Drag End", "Feedback when dropping item");
+                this.PluginEvents.AddEvent("scroll_tick", "Scroll Tick", "Subtle tick for scroll events");
+                this.PluginEvents.AddEvent("select", "Select", "Smooth feedback for selection");
+
+                // Notifications
+                this.PluginEvents.AddEvent("success", "Success", "Happy feedback for successful operations");
+                this.PluginEvents.AddEvent("error", "Error", "Alert pattern for errors");
+                this.PluginEvents.AddEvent("warning", "Warning", "Attention-grabbing warning");
+                this.PluginEvents.AddEvent("info", "Info", "Gentle notification");
+                this.PluginEvents.AddEvent("completed", "Completed", "Task completion celebration");
+
+                // Gaming & Interactive
+                this.PluginEvents.AddEvent("hit_light", "Light Hit", "Light impact feedback");
+                this.PluginEvents.AddEvent("hit_heavy", "Heavy Hit", "Strong impact feedback");
+                this.PluginEvents.AddEvent("damage", "Damage", "Taking damage feedback");
+                this.PluginEvents.AddEvent("pickup", "Pickup", "Collecting item feedback");
+                this.PluginEvents.AddEvent("level_up", "Level Up", "Achievement/level up celebration");
+
+                // Creative & Special
+                this.PluginEvents.AddEvent("pulse", "Pulse", "Rhythmic pulsing pattern");
+                this.PluginEvents.AddEvent("wave", "Wave", "Smooth wave pattern");
+                this.PluginEvents.AddEvent("firework", "Firework", "Burst pattern for celebrations");
+                this.PluginEvents.AddEvent("heartbeat", "Heartbeat", "Rhythmic heartbeat pattern");
+
+                // System
                 this.PluginEvents.AddEvent("stop", "Stop", "Emergency stop - halt all haptic feedback");
 
-                PluginLog.Info("Registered 5 haptic events");
+                PluginLog.Info("Registered 21 haptic events");
 
                 // Initialize Event Queue Manager with haptic trigger callback
                 this._eventQueueManager = new HapticEventQueueManager(this.TriggerHapticEvent);

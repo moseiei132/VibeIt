@@ -31,10 +31,36 @@ namespace Loupedeck.VibeItPlugin.Helpers
             this._activeTasks = new ConcurrentDictionary<String, CancellationTokenSource>();
 
             // Configure default strategies
-            this.ConfigureEventStrategy("soft_bump", QueueStrategy.Throttle, 100);      // 10 Hz for smooth hover
-            this.ConfigureEventStrategy("sharp_click", QueueStrategy.CancelPrevious);
+            // UI Interactions - mostly throttled for smooth feel
+            this.ConfigureEventStrategy("hover", QueueStrategy.Throttle, 100);         // 10 Hz
+            this.ConfigureEventStrategy("click", QueueStrategy.CancelPrevious);
             this.ConfigureEventStrategy("double_click", QueueStrategy.CancelPrevious);
-            this.ConfigureEventStrategy("long_pulse", QueueStrategy.CancelPrevious);
+            this.ConfigureEventStrategy("drag_start", QueueStrategy.CancelPrevious);
+            this.ConfigureEventStrategy("drag_end", QueueStrategy.CancelPrevious);
+            this.ConfigureEventStrategy("scroll_tick", QueueStrategy.Throttle, 50);    // 20 Hz for responsive scroll
+            this.ConfigureEventStrategy("select", QueueStrategy.CancelPrevious);
+
+            // Notifications - cancel previous for immediate feedback
+            this.ConfigureEventStrategy("success", QueueStrategy.CancelPrevious);
+            this.ConfigureEventStrategy("error", QueueStrategy.CancelPrevious);
+            this.ConfigureEventStrategy("warning", QueueStrategy.CancelPrevious);
+            this.ConfigureEventStrategy("info", QueueStrategy.CancelPrevious);
+            this.ConfigureEventStrategy("completed", QueueStrategy.CancelPrevious);
+
+            // Gaming & Interactive - responsive
+            this.ConfigureEventStrategy("hit_light", QueueStrategy.Throttle, 80);      // 12.5 Hz for rapid hits
+            this.ConfigureEventStrategy("hit_heavy", QueueStrategy.CancelPrevious);
+            this.ConfigureEventStrategy("damage", QueueStrategy.CancelPrevious);
+            this.ConfigureEventStrategy("pickup", QueueStrategy.Throttle, 100);        // 10 Hz for rapid pickups
+            this.ConfigureEventStrategy("level_up", QueueStrategy.CancelPrevious);
+
+            // Creative & Special - let them play out
+            this.ConfigureEventStrategy("pulse", QueueStrategy.CancelPrevious);
+            this.ConfigureEventStrategy("wave", QueueStrategy.CancelPrevious);
+            this.ConfigureEventStrategy("firework", QueueStrategy.CancelPrevious);
+            this.ConfigureEventStrategy("heartbeat", QueueStrategy.Throttle, 800);     // ~75 BPM heartbeat
+
+            // System
             this.ConfigureEventStrategy("stop", QueueStrategy.Immediate);               // Emergency stop
         }
 

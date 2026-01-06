@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VibeIt Haptic Tester</title>
+    <title>VibeIt Haptic Tester - 21 Events</title>
     <style>
         * {
             margin: 0;
@@ -16,37 +16,34 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             padding: 20px;
         }
 
         .container {
             background: white;
             border-radius: 20px;
-            padding: 40px;
+            padding: 30px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 600px;
-            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         h1 {
             color: #667eea;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-size: 2em;
         }
 
         .subtitle {
             color: #666;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             font-size: 0.9em;
         }
 
         .status {
             padding: 12px 20px;
             border-radius: 10px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             font-weight: 500;
             text-align: center;
         }
@@ -66,24 +63,39 @@
             color: #856404;
         }
 
+        .category {
+            margin-bottom: 25px;
+        }
+
+        .category h3 {
+            color: #444;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f0f0f0;
+            font-size: 1.1em;
+        }
+
         .event-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
         }
 
         .haptic-btn {
-            padding: 20px;
+            padding: 15px 12px;
             border: none;
-            border-radius: 15px;
-            font-size: 1em;
+            border-radius: 12px;
+            font-size: 0.9em;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
             color: white;
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
         }
 
         .haptic-btn:hover {
@@ -95,31 +107,51 @@
             transform: translateY(0);
         }
 
-        .haptic-btn.soft-bump {
-            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+        /* UI Interactions - Blue tones */
+        .ui {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         }
 
-        .haptic-btn.sharp-click {
+        /* Notifications - Green/Red tones */
+        .notification.success {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .notification.error {
             background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
         }
 
-        .haptic-btn.double-click {
-            background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+        .notification.warning {
+            background: linear-gradient(135deg, #ff9966 0%, #ff5e62 100%);
         }
 
-        .haptic-btn.long-pulse {
-            background: linear-gradient(135deg, #ff6e7f 0%, #bfe9ff 100%);
+        .notification.info {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
         }
 
-        .haptic-btn.stop {
+        .notification.completed {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        }
+
+        /* Gaming - Purple/Dark tones */
+        .gaming {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        /* Creative - Colorful gradients */
+        .creative {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        /* System - Red */
+        .system {
             background: linear-gradient(135deg, #e33e3e 0%, #c94747 100%);
-            grid-column: 1 / -1;
         }
 
-        .desc {
-            font-size: 0.85em;
-            opacity: 0.9;
-            margin-top: 5px;
+        .byte-code {
+            font-size: 0.75em;
+            opacity: 0.85;
+            font-family: 'Courier New', monospace;
         }
 
         .rapid-test {
@@ -142,7 +174,7 @@
 
         .hover-item {
             flex: 1;
-            min-width: 80px;
+            min-width: 100px;
             padding: 15px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -166,8 +198,33 @@
             border-radius: 10px;
             font-family: 'Courier New', monospace;
             font-size: 0.85em;
-            max-height: 150px;
+            max-height: 200px;
             overflow-y: auto;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .controls button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .controls .clear-log {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .controls .clear-log:hover {
+            background: #c0392b;
         }
     </style>
 </head>
@@ -175,44 +232,150 @@
 <body>
     <div class="container">
         <h1>🎮 VibeIt Haptic Tester</h1>
-        <p class="subtitle">Test universal haptic feedback for Logitech MX Master 4</p>
+        <p class="subtitle">Test all 21 haptic events for Logitech MX Master 4</p>
 
         <div id="status" class="status pending">Connecting...</div>
 
-        <div class="event-grid">
-            <button class="haptic-btn soft-bump" onclick="trigger('soft_bump')">
-                ✨ Soft Bump
-                <div class="desc">Light hover feel</div>
-            </button>
-            <button class="haptic-btn sharp-click" onclick="trigger('sharp_click')">
-                🎯 Sharp Click
-                <div class="desc">Crisp button press</div>
-            </button>
-            <button class="haptic-btn double-click" onclick="trigger('double_click')">
-                🔔 Double Click
-                <div class="desc">Alert notification</div>
-            </button>
-            <button class="haptic-btn long-pulse" onclick="trigger('long_pulse')">
-                ⚠️ Long Pulse
-                <div class="desc">Warning signal</div>
-            </button>
-            <button class="haptic-btn stop" onclick="trigger('stop')">
-                🛑 EMERGENCY STOP
-                <div class="desc">Halt immediately</div>
-            </button>
+        <div class="controls">
+            <button class="clear-log" onclick="clearLog()">🗑️ Clear Log</button>
         </div>
 
+        <!-- UI Interactions -->
+        <div class="category">
+            <h3>🖱️ UI Interactions</h3>
+            <div class="event-grid">
+                <button class="haptic-btn ui" onclick="trigger('hover')">
+                    Hover
+                    <span class="byte-code">0x01</span>
+                </button>
+                <button class="haptic-btn ui" onclick="trigger('click')">
+                    Click
+                    <span class="byte-code">0x02</span>
+                </button>
+                <button class="haptic-btn ui" onclick="trigger('double_click')">
+                    Double Click
+                    <span class="byte-code">0x03</span>
+                </button>
+                <button class="haptic-btn ui" onclick="trigger('drag_start')">
+                    Drag Start
+                    <span class="byte-code">0x04</span>
+                </button>
+                <button class="haptic-btn ui" onclick="trigger('drag_end')">
+                    Drag End
+                    <span class="byte-code">0x05</span>
+                </button>
+                <button class="haptic-btn ui" onclick="trigger('scroll_tick')">
+                    Scroll Tick
+                    <span class="byte-code">0x06</span>
+                </button>
+                <button class="haptic-btn ui" onclick="trigger('select')">
+                    Select
+                    <span class="byte-code">0x07</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="category">
+            <h3>🔔 Notifications</h3>
+            <div class="event-grid">
+                <button class="haptic-btn notification success" onclick="trigger('success')">
+                    ✅ Success
+                    <span class="byte-code">0x08</span>
+                </button>
+                <button class="haptic-btn notification error" onclick="trigger('error')">
+                    ❌ Error
+                    <span class="byte-code">0x09</span>
+                </button>
+                <button class="haptic-btn notification warning" onclick="trigger('warning')">
+                    ⚠️ Warning
+                    <span class="byte-code">0x0A</span>
+                </button>
+                <button class="haptic-btn notification info" onclick="trigger('info')">
+                    ℹ️ Info
+                    <span class="byte-code">0x0B</span>
+                </button>
+                <button class="haptic-btn notification completed" onclick="trigger('completed')">
+                    ✨ Completed
+                    <span class="byte-code">0x0C</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Gaming & Interactive -->
+        <div class="category">
+            <h3>🎮 Gaming & Interactive</h3>
+            <div class="event-grid">
+                <button class="haptic-btn gaming" onclick="trigger('hit_light')">
+                    👊 Light Hit
+                    <span class="byte-code">0x0D</span>
+                </button>
+                <button class="haptic-btn gaming" onclick="trigger('hit_heavy')">
+                    💥 Heavy Hit
+                    <span class="byte-code">0x0E</span>
+                </button>
+                <button class="haptic-btn gaming" onclick="trigger('damage')">
+                    🩸 Damage
+                    <span class="byte-code">0x0F</span>
+                </button>
+                <button class="haptic-btn gaming" onclick="trigger('pickup')">
+                    💰 Pickup
+                    <span class="byte-code">0x10</span>
+                </button>
+                <button class="haptic-btn gaming" onclick="trigger('level_up')">
+                    ⭐ Level Up
+                    <span class="byte-code">0x11</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Creative & Special -->
+        <div class="category">
+            <h3>🎨 Creative & Special</h3>
+            <div class="event-grid">
+                <button class="haptic-btn creative" onclick="trigger('pulse')">
+                    💓 Pulse
+                    <span class="byte-code">0x12</span>
+                </button>
+                <button class="haptic-btn creative" onclick="trigger('wave')">
+                    🌊 Wave
+                    <span class="byte-code">0x13</span>
+                </button>
+                <button class="haptic-btn creative" onclick="trigger('firework')">
+                    🎆 Firework
+                    <span class="byte-code">0x14</span>
+                </button>
+                <button class="haptic-btn creative" onclick="trigger('heartbeat')">
+                    ❤️ Heartbeat
+                    <span class="byte-code">0x15</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- System -->
+        <div class="category">
+            <h3>⚙️ System</h3>
+            <div class="event-grid">
+                <button class="haptic-btn system" onclick="trigger('stop')">
+                    🛑 STOP
+                    <span class="byte-code">0x00</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Rapid Hover Test -->
         <div class="rapid-test">
             <h3>📋 Rapid Hover Test (Throttled)</h3>
             <div class="hover-zone">
-                <div class="hover-item" onmouseenter="trigger('soft_bump')">Item 1</div>
-                <div class="hover-item" onmouseenter="trigger('soft_bump')">Item 2</div>
-                <div class="hover-item" onmouseenter="trigger('soft_bump')">Item 3</div>
-                <div class="hover-item" onmouseenter="trigger('soft_bump')">Item 4</div>
-                <div class="hover-item" onmouseenter="trigger('soft_bump')">Item 5</div>
+                <div class="hover-item" onmouseenter="trigger('hover')">Item 1</div>
+                <div class="hover-item" onmouseenter="trigger('hover')">Item 2</div>
+                <div class="hover-item" onmouseenter="trigger('hover')">Item 3</div>
+                <div class="hover-item" onmouseenter="trigger('hover')">Item 4</div>
+                <div class="hover-item" onmouseenter="trigger('hover')">Item 5</div>
+                <div class="hover-item" onmouseenter="trigger('hover')">Item 6</div>
             </div>
             <p style="margin-top: 10px; font-size: 0.85em; color: #666;">
-                Hover quickly across items to test throttling (100ms)
+                Hover quickly across items to test throttling (100ms limit)
             </p>
         </div>
 
@@ -232,8 +395,9 @@
 
                 ws.onopen = () => {
                     isConnected = true;
-                    updateStatus('connected', '✅ Connected to VibeIt Bridge');
+                    updateStatus('connected', '✅ Connected to VibeIt Bridge (21 events ready)');
                     log('✅ WebSocket connected to ws://localhost:8765');
+                    log('📊 21 haptic events loaded');
                 };
 
                 ws.onclose = () => {
@@ -264,12 +428,11 @@
 
             try {
                 requestCount++;
-                log(`→ [${requestCount}] Sending: ${eventName}`);
 
                 // Send JSON protocol
                 ws.send(JSON.stringify({ event: eventName }));
 
-                log(`← [${requestCount}] Sent successfully`);
+                log(`→ [${requestCount}] 🎮 ${eventName}`);
             } catch (error) {
                 log(`← [${requestCount}] Failed: ${error.message}`);
                 updateStatus('disconnected', '❌ Lost connection to VibeIt');
@@ -289,9 +452,13 @@
             logEl.scrollTop = logEl.scrollHeight;
         }
 
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+            log('🗑️ Log cleared');
+        }
+
         // Connect on load
         connect();
-    </script>
     </script>
 </body>
 

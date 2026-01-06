@@ -1,14 +1,69 @@
 haptics:
-  soft_bump:
-    DEFAULT: subtle_collision  # Light touch feedback for hover interactions
+  # UI Interactions
+  hover:
+    DEFAULT: subtle_collision  # Light, non-intrusive
   
-  sharp_click:
-    DEFAULT: sharp_state_change  # Crisp, immediate feedback for button clicks
+  click:
+    DEFAULT: sharp_state_change  # Crisp, immediate
   
   double_click:
-    DEFAULT: knock  # Repetitive pattern for double-click/alert
+    DEFAULT: knock  # Distinct double pattern
   
-  long_pulse:
-    DEFAULT: angry_alert  # Attention-grabbing pattern for warnings/errors
+  drag_start:
+    DEFAULT: damp_state_change  # Smooth start
   
-  # stop event has no waveform mapping - it's handled as an immediate halt command
+  drag_end:
+    DEFAULT: sharp_collision  # Definitive drop
+  
+  scroll_tick:
+    DEFAULT: subtle_collision  # Gentle tick
+  
+  select:
+    DEFAULT: damp_state_change  # Smooth selection
+  
+  # Notifications
+  success:
+    DEFAULT: happy_alert  # Positive, uplifting
+  
+  error:
+    DEFAULT: angry_alert  # Attention-grabbing
+  
+  warning:
+    DEFAULT: angry_alert  # Alert pattern
+  
+  info:
+    DEFAULT: damp_collision  # Gentle notification
+  
+  completed:
+    DEFAULT: completed  # Task done celebration
+  
+  # Gaming & Interactive
+  hit_light:
+    DEFAULT: subtle_collision  # Light impact
+  
+  hit_heavy:
+    DEFAULT: sharp_collision  # Strong impact
+  
+  damage:
+    DEFAULT: mad  # Chaotic damage feel
+  
+  pickup:
+    DEFAULT: jingle  # Pleasant pickup sound
+  
+  level_up:
+    DEFAULT: firework  # Celebration burst
+  
+  # Creative & Special
+  pulse:
+    DEFAULT: wave  # Smooth pulsing
+  
+  wave:
+    DEFAULT: wave  # Sinusoidal wave
+  
+  firework:
+    DEFAULT: firework  # Multi-burst celebration
+  
+  heartbeat:
+    DEFAULT: knock  # Rhythmic pattern
+  
+  # stop event has no waveform mapping - handled as immediate halt
