@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeIt Haptic Tester</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+
+        .status {
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .status.connected {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.disconnected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .event-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .haptic-btn {
+            padding: 20px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .haptic-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .haptic-btn:active {
+            transform: translateY(0);
+        }
+
+        .haptic-btn.soft-bump {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+        }
+
+        .haptic-btn.sharp-click {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .haptic-btn.double-click {
+            background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+        }
+
+        .haptic-btn.long-pulse {
+            background: linear-gradient(135deg, #ff6e7f 0%, #bfe9ff 100%);
+        }
+
+        .haptic-btn.stop {
+            background: linear-gradient(135deg, #e33e3e 0%, #c94747 100%);
+            grid-column: 1 / -1;
+        }
+
+        .desc {
+            font-size: 0.85em;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        .rapid-test {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+
+        .rapid-test h3 {
+            margin-bottom: 15px;
+            color: #444;
+        }
+
+        .hover-zone {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .hover-item {
+            flex: 1;
+            min-width: 80px;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .hover-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .log {
+            margin-top: 20px;
+            padding: 15px;
+            background: #2d2d2d;
+            color: #0f0;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🎮 VibeIt Haptic Tester</h1>
+        <p class="subtitle">Test universal haptic feedback for Logitech MX Master 4</p>
+
+        <div id="status" class="status pending">Connecting...</div>
+
+        <div class="event-grid">
+            <button class="haptic-btn soft-bump" onclick="trigger('soft_bump')">
+                ✨ Soft Bump
+                <div class="desc">Light hover feel</div>
+            </button>
+            <button class="haptic-btn sharp-click" onclick="trigger('sharp_click')">
+                🎯 Sharp Click
+                <div class="desc">Crisp button press</div>
+            </button>
+            <button class="haptic-btn double-click" onclick="trigger('double_click')">
+                🔔 Double Click
+                <div class="desc">Alert notification</div>
+            </button>
+            <button class="haptic-btn long-pulse" onclick="trigger('long_pulse')">
+                ⚠️ Long Pulse
+                <div class="desc">Warning signal</div>
+            </button>
+            <button class="haptic-btn stop" onclick="trigger('stop')">
+                🛑 EMERGENCY STOP
+                <div class="desc">Halt immediately</div>
+            </button>
+        </div>
+
+        <div class="rapid-test">
+            <h3>📋 Rapid Hover Test (Throttled)</h3>
+            <div class="hover-zone">
+                <div class="hover-item" onmouseenter="trigger('soft_bump')">Item 1</div>
+                <div class="hover-item" onmouseenter="trigger('soft_bump')">Item 2</div>
+                <div class="hover-item" onmouseenter="trigger('soft_bump')">Item 3</div>
+                <div class="hover-item" onmouseenter="trigger('soft_bump')">Item 4</div>
+                <div class="hover-item" onmouseenter="trigger('soft_bump')">Item 5</div>
+            </div>
+            <p style="margin-top: 10px; font-size: 0.85em; color: #666;">
+                Hover quickly across items to test throttling (100ms)
+            </p>
+        </div>
+
+        <div class="log" id="log"></div>
+    </div>
+
+    <script>
+        const WS_URL = 'ws://localhost:8765';
+        let ws = null;
+        let requestCount = 0;
+        let isConnected = false;
+
+        // Connect to WebSocket
+        function connect() {
+            try {
+                ws = new WebSocket(WS_URL);
+
+                ws.onopen = () => {
+                    isConnected = true;
+                    updateStatus('connected', '✅ Connected to VibeIt Bridge');
+                    log('✅ WebSocket connected to ws://localhost:8765');
+                };
+
+                ws.onclose = () => {
+                    isConnected = false;
+                    updateStatus('disconnected', '❌ Disconnected from VibeIt');
+                    log('❌ WebSocket connection closed');
+
+                    // Reconnect after 2 seconds
+                    setTimeout(connect, 2000);
+                };
+
+                ws.onerror = (error) => {
+                    updateStatus('disconnected', '❌ Cannot connect to VibeIt (is it running?)');
+                    log(`❌ WebSocket error: ${error.message || 'Connection failed'}`);
+                };
+            } catch (error) {
+                updateStatus('disconnected', '❌ Failed to create WebSocket');
+                log(`❌ Error: ${error.message}`);
+            }
+        }
+
+        function trigger(eventName) {
+            if (!isConnected || !ws || ws.readyState !== WebSocket.OPEN) {
+                log(`❌ Not connected - cannot send ${eventName}`);
+                updateStatus('disconnected', '❌ Connection lost');
+                return;
+            }
+
+            try {
+                requestCount++;
+                log(`→ [${requestCount}] Sending: ${eventName}`);
+
+                // Send JSON protocol
+                ws.send(JSON.stringify({ event: eventName }));
+
+                log(`← [${requestCount}] Sent successfully`);
+            } catch (error) {
+                log(`← [${requestCount}] Failed: ${error.message}`);
+                updateStatus('disconnected', '❌ Lost connection to VibeIt');
+            }
+        }
+
+        function updateStatus(type, message) {
+            const status = document.getElementById('status');
+            status.className = `status ${type}`;
+            status.textContent = message;
+        }
+
+        function log(message) {
+            const logEl = document.getElementById('log');
+            const time = new Date().toLocaleTimeString('th-TH');
+            logEl.innerHTML += `[${time}] ${message}<br>`;
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        // Connect on load
+        connect();
+    </script>
+    </script>
+</body>
+
+</html>

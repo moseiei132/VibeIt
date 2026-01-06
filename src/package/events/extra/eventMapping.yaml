@@ -1,0 +1,14 @@
+haptics:
+  soft_bump:
+    DEFAULT: subtle_collision  # Light touch feedback for hover interactions
+  
+  sharp_click:
+    DEFAULT: sharp_state_change  # Crisp, immediate feedback for button clicks
+  
+  double_click:
+    DEFAULT: knock  # Repetitive pattern for double-click/alert
+  
+  long_pulse:
+    DEFAULT: angry_alert  # Attention-grabbing pattern for warnings/errors
+  
+  # stop event has no waveform mapping - it's handled as an immediate halt command

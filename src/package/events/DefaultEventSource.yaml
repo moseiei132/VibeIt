@@ -1,0 +1,22 @@
+displayName: VibeIt Universal Haptic Bridge
+description: Universal haptic feedback bridge for Logitech MX Master 4
+events:
+  - name: soft_bump
+    displayName: Soft Bump
+    description: Light vibration for hover interactions (เหมาะสำหรับ UI hover)
+  
+  - name: sharp_click
+    displayName: Sharp Click
+    description: Crisp click feedback for button presses (คลิกกริ๊บ สำหรับปุ่ม)
+  
+  - name: double_click
+    displayName: Double Click
+    description: Double-tap vibration pattern for alerts (สั่น 2 ครั้ง สำหรับ Alert)
+  
+  - name: long_pulse
+    displayName: Long Pulse
+    description: Long vibration for warnings and errors (สั่นยาว สำหรับ Warning/Error)
+  
+  - name: stop
+    displayName: Stop
+    description: Emergency stop - immediately halt all haptic feedback (หยุดมอเตอร์ทันที)
