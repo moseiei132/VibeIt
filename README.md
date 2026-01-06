@@ -4,11 +4,12 @@ VibeIt is a lightweight Logitech plugin that provides haptic feedback control fo
 
 ## 🎯 Features
 
+- ✅ **Cross-Platform**: Supports Windows & macOS
 - ✅ **WebSocket Server**: Fast, real-time haptic control (Binary + JSON protocols)
 - ✅ **Lightweight**: Simple, minimal overhead implementation
-- ✅ **Cross-Platform**: Works with JavaScript, Python, Node.js, C#, and more
+- ✅ **Client Libraries**: Works with JavaScript, Python, Node.js, C#, and more
 - ✅ **Smart Event Queue**: Configurable strategies (Throttle, CancelPrevious, Immediate)
-- ✅ **5 Preset Haptic Events**: Optimized for common UI interactions
+- ✅ **21 Preset Haptic Events**: Optimized for UI, gaming, notifications, and creative uses
 
 ## 📡 WebSocket Connection
 

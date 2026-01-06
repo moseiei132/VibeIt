@@ -18,7 +18,7 @@ description: Universal Haptic Bridge for Logitech MX Master 4 - WebSocket server
 pluginFileName: VibeItPlugin.dll
 
 # Plugin version.
-version: 1.0
+version: 1.1
 
 # Author of the plugin. The author can be a company or an individual developer.
 author: dulyawat
@@ -33,7 +33,7 @@ copyright: Copyright © 2026 dulyawat. All rights reserved.
 
 # Location of plugin files on Windows (relative to the plugin base directory).
 # This parameter is required to support Windows.
-#pluginFolderWin: bin
+pluginFolderWin: bin
 
 # Location of plugin files on macOS (relative to the plugin base directory).
 # This parameter is required to support Mac.
