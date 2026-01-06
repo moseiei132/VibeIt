@@ -398,3 +398,6 @@ FodyWeavers.xsd
 *.sln.iml
 
 .DS_Store
+# VibeIt Plugin Build
+build/
+*.lplug4

@@ -12,7 +12,7 @@ name: VibeIt
 displayName: VibeIt
 
 # Short description of the plugin.
-description: Universal Haptic Bridge - WebSocket & HTTP server for triggering haptic feedback on MX Master 4
+description: Universal Haptic Bridge for Logitech MX Master 4 - WebSocket server for triggering haptic feedback from browser extensions, games, and applications. Supports 21 preset haptic events across UI, notifications, gaming, and creative categories.
 
 # Name of the plugin library file.
 pluginFileName: VibeItPlugin.dll
@@ -24,7 +24,7 @@ version: 1.0
 author: dulyawat
 
 # Copyright information.
-copyright: Copyright © 2569 dulyawat. All rights reserved.
+copyright: Copyright © 2026 dulyawat. All rights reserved.
 
 
 # ==================================================================================================
@@ -77,7 +77,7 @@ licenseUrl: https://opensource.org/licenses/MIT
 # URL of the support page where the users can send improvement suggestions and report bugs.
 # The URL is shown in Loupedeck Marketplace. The page can be for example a GitHub issues page.
 # NOTE: This setting is recommended when publishing the plugin in Loupedeck Marketplace.
-#supportPageUrl: https://github.com/myusername/myplugin/issues
+supportPageUrl: https://github.com/moseiei132/VibeIt/issues
 
 # URL of the plugin homepage. The URL is shown in Loupedeck Marketplace.
-#homePageUrl: https://github.com/myusername/myplugin
+homePageUrl: https://github.com/moseiei132/VibeIt
