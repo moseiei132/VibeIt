@@ -26,6 +26,35 @@ const ws = new WebSocket('ws://localhost:8765');
 ws.send(JSON.stringify({event: "sharp_click"}));
 ```
 
+### Server Info Command
+Query server capabilities and available events:
+
+```javascript
+// Request server info
+ws.send(JSON.stringify({command: "info"}));
+
+// Response
+ws.onmessage = (msg) => {
+  const info = JSON.parse(msg.data);
+  console.log(info);
+  /*
+  {
+    "server": "VibeIt",
+    "version": "1.0.0",
+    "type": "WebSocket",
+    "port": 8765,
+    "protocols": ["binary", "json"],
+    "eventCount": 21,
+    "events": [
+      {"name": "hover", "code": "0x01", "category": "ui"},
+      ...
+    ],
+    "features": ["throttle", "cancel_previous", "immediate"]
+  }
+  */
+};
+```
+
 
 ## 🎮 Available Events (21 Total)
 
