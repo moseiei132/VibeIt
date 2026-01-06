@@ -226,6 +226,51 @@
         .controls .clear-log:hover {
             background: #c0392b;
         }
+
+        .controls .get-info {
+            background: #3498db;
+            color: white;
+        }
+
+        .controls .get-info:hover {
+            background: #2980b9;
+        }
+
+        .server-info {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 4px solid #3498db;
+            display: none;
+        }
+
+        .server-info.show {
+            display: block;
+        }
+
+        .server-info h3 {
+            color: #3498db;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 8px 15px;
+            font-size: 0.9em;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .info-value {
+            color: #333;
+            font-family: 'Courier New', monospace;
+        }
     </style>
 </head>
 
@@ -237,7 +282,13 @@
         <div id="status" class="status pending">Connecting...</div>
 
         <div class="controls">
+            <button class="get-info" onclick="getServerInfo()">ℹ️ Get Server Info</button>
             <button class="clear-log" onclick="clearLog()">🗑️ Clear Log</button>
+        </div>
+
+        <div id="serverInfo" class="server-info">
+            <h3>📡 Server Information</h3>
+            <div class="info-grid" id="infoGrid"></div>
         </div>
 
         <!-- UI Interactions -->
@@ -400,6 +451,17 @@
                     log('📊 21 haptic events loaded');
                 };
 
+                ws.onmessage = (msg) => {
+                    try {
+                        const data = JSON.parse(msg.data);
+                        if (data.server) {
+                            displayServerInfo(data);
+                        }
+                    } catch (e) {
+                        log(`Received: ${msg.data}`);
+                    }
+                };
+
                 ws.onclose = () => {
                     isConnected = false;
                     updateStatus('disconnected', '❌ Disconnected from VibeIt');
@@ -455,6 +517,60 @@
         function clearLog() {
             document.getElementById('log').innerHTML = '';
             log('🗑️ Log cleared');
+        }
+
+        function getServerInfo() {
+            if (!isConnected || !ws || ws.readyState !== WebSocket.OPEN) {
+                log('❌ Not connected - cannot get server info');
+                return;
+            }
+
+            log('→ Requesting server info...');
+            ws.send(JSON.stringify({ command: 'info' }));
+        }
+
+        function displayServerInfo(info) {
+            log('← Received server info');
+
+            const infoDiv = document.getElementById('serverInfo');
+            const grid = document.getElementById('infoGrid');
+
+            // Count categories
+            const categories = {};
+            info.events.forEach(e => {
+                categories[e.category] = (categories[e.category] || 0) + 1;
+            });
+
+            grid.innerHTML = `
+                <div class="info-label">Server:</div>
+                <div class="info-value">${info.server} v${info.version}</div>
+                
+                <div class="info-label">Type:</div>
+                <div class="info-value">${info.type}</div>
+                
+                <div class="info-label">Port:</div>
+                <div class="info-value">${info.port}</div>
+                
+                <div class="info-label">Protocols:</div>
+                <div class="info-value">${info.protocols.join(', ')}</div>
+                
+                <div class="info-label">Features:</div>
+                <div class="info-value">${info.features.join(', ')}</div>
+                
+                <div class="info-label">Total Events:</div>
+                <div class="info-value">${info.eventCount}</div>
+                
+                <div class="info-label">By Category:</div>
+                <div class="info-value">
+                    UI: ${categories.ui || 0}, 
+                    Notifications: ${categories.notification || 0}, 
+                    Gaming: ${categories.gaming || 0}, 
+                    Creative: ${categories.creative || 0}, 
+                    System: ${categories.system || 0}
+                </div>
+            `;
+
+            infoDiv.classList.add('show');
         }
 
         // Connect on load
